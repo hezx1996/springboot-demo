@@ -100,13 +100,6 @@
             <artifactId>jasypt-spring-boot-starter</artifactId>
             <version>2.1.0</version>
         </dependency>
-
-        <!--二维码生成-->
-      <!--  <dependency>
-            <groupId>com.google.zxing</groupId>
-            <artifactId>core</artifactId>
-            <version>2.3.0</version>
-        </dependency>-->
         <!--word相关jar-->
         <dependency>
             <groupId>com.lowagie</groupId>
