@@ -37,7 +37,7 @@ public class TestDate {
         System.out.println(name);*/
 
         //huTool post请求
-        String url = "http://localhost:7399/event/hk/notification";
+        String url = "http://localhost:7399/hk/event/notification/visitor";
         JSONObject json = new JSONObject();
         json.put("eventType", "131329");
         json.put("remark", "777777");
@@ -60,9 +60,17 @@ public class TestDate {
         System.out.println("---解析后的结果-----" + retCode + "," + retMessage + "," + result);
     }
     
-    //指定类型转换<T>
+
+
+    /**
+     * 指定类型转换<T>
+     * @param obj 被转换的对象
+     * @param clazz 要转换的类型
+     * @param <T>
+     * @return
+     */
     public static <T> T safeTypeConvert(Object obj, Class<T> clazz) {
-        if (null == obj) {
+        if (null == obj || "null".equals(obj)) {
             return null;
         }
         T retObject = null;
