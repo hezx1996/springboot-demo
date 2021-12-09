@@ -45,13 +45,35 @@ public class TestDate {
         json.put("deviceName", "闸机2");
         json.put("statusTime", "2021-11-23 21:16:25");
         String post = HttpUtil.post(url, json.toString());
+        /*Map<String,Object> map = new HashMap<>();
+        map.put("eventType", "131329");
+        map.put("remark", "777777");
+        map.put("position", "大门口");
+        map.put("deviceName", "闸机2");
+        map.put("statusTime", "2021-11-23 21:16:25");
+        String post = HttpUtil.post(url, map);*/
         System.out.println("----------返回字符串---------->" + post);
         cn.hutool.json.JSONObject jsonObject = JSONUtil.parseObj(post);
         String retCode = (String) jsonObject.get("retCode");
-        String retMessage = (String) jsonObject.get("retMessage");
-        String result = (String) jsonObject.get("result");
+        Object retMessage = jsonObject.get("retMessage");
+        String result = safeTypeConvert(jsonObject.get("result"), String.class);
         System.out.println("---解析后的结果-----" + retCode + "," + retMessage + "," + result);
     }
+    
+    //指定类型转换<T>
+    public static <T> T safeTypeConvert(Object obj, Class<T> clazz) {
+        if (null == obj) {
+            return null;
+        }
+        T retObject = null;
+        try {
+            retObject = clazz.cast(obj);
+        } catch (ClassCastException e) {
+            e.printStackTrace();
+        }
+        return retObject;
+    }
+
 
     /**
      * 获取周末和节假日
