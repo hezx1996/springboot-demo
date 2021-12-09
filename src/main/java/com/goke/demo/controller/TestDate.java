@@ -10,7 +10,7 @@ import com.squareup.okhttp.Response;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
- 
+
 /**
  * <p>TestDate 此类用于：</p>
  * <p>@author：hujm</p>
@@ -18,13 +18,13 @@ import java.util.*;
  * <p>@remark：</p>
  */
 public class TestDate {
- 
+
     public static void main(String[] args) {
         //System.out.println(getJjr("2021-09-26",9));
         //System.out.println(getMonthWekDay(2021, 8));
         //System.out.println(JJR(2021, 8));
 
-        String result1= HttpUtil.get("http://timor.tech/api/holiday/info/"+"2021-10-01");
+      /*  String result1= HttpUtil.get("http://timor.tech/api/holiday/info/"+"2021-10-01");
         System.out.println(result1);
         cn.hutool.json.JSONObject jsonObject = JSONUtil.parseObj(result1);
         Integer code = jsonObject.getInt("code");
@@ -34,10 +34,25 @@ public class TestDate {
         Integer type1 = jsonObject1.getInt("type");
         System.out.println(type1);
         String name = jsonObject1.getStr("name");
-        System.out.println(name);
+        System.out.println(name);*/
 
+        //huTool post请求
+        String url = "http://localhost:7399/event/hk/notification";
+        JSONObject json = new JSONObject();
+        json.put("eventType", "131329");
+        json.put("remark", "777777");
+        json.put("position", "大门口");
+        json.put("deviceName", "闸机2");
+        json.put("statusTime", "2021-11-23 21:16:25");
+        String post = HttpUtil.post(url, json.toString());
+        System.out.println("----------返回字符串---------->" + post);
+        cn.hutool.json.JSONObject jsonObject = JSONUtil.parseObj(post);
+        String retCode = (String) jsonObject.get("retCode");
+        String retMessage = (String) jsonObject.get("retMessage");
+        String result = (String) jsonObject.get("result");
+        System.out.println("---解析后的结果-----" + retCode + "," + retMessage + "," + result);
     }
- 
+
     /**
      * 获取周末和节假日
      *
@@ -69,7 +84,7 @@ public class TestDate {
         }
         return monthWekDay;
     }*/
- 
+
     /**
      * 获取节假日不含周末
      *
@@ -78,7 +93,7 @@ public class TestDate {
      * @return
      */
     private static Map getJjr(String year, int month) {
-        String url = "http://timor.tech/api/holiday/year/"+year;
+        String url = "http://timor.tech/api/holiday/year/" + year;
         OkHttpClient client = new OkHttpClient();
         Response response;
         //解密数据
@@ -96,7 +111,7 @@ public class TestDate {
         }
         return JSONObject.parseObject(rsa, Map.class);
     }
- 
+
     /**
      * 获取周末  月从0开始
      *
